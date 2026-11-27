@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: edumaster-backend-api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PROJECT_NAME=EduMaster.ai Enterprise
+      - PORT=8000
+    networks:
+      - edumaster-network
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: edumaster-frontend-web
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - edumaster-network
+
+networks:
+  edumaster-network:
+    driver: bridge
